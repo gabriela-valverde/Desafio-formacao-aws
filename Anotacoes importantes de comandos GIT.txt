@@ -1,0 +1,96 @@
+Resumo da Trilha de Resolução de Sincronização (Workflow de Push Rejeitado)
+Cenário Inicial: Push Rejeitado (non-fast-forward)
+O erro inicial (! [rejected] main -> main (non-fast-forward)) ocorre porque o seu repositório local está "atrasado" em relação ao repositório remoto. Isso significa que há commits no GitHub (como o README.md ou licença que você criou lá) que não existem na sua máquina.
+
+Passo 1: Puxar e Integrar Alterações Remotas
+A solução imediata é sempre usar o git pull antes de tentar o git push.
+
+Comando Executado: git pull origin main
+Resultado: fatal: refusing to merge unrelated histories
+Detalhe da Ação: O Git recusou a mesclagem porque os repositórios local e remoto foram iniciados de forma independente.
+
+Passo 2: Permitir Mesclagem de Históricos Não Relacionados
+Para forçar a união dos dois históricos (o local e o remoto), você precisa adicionar uma flag de segurança.
+
+Comando Executado: git pull origin main --allow-unrelated-histories
+Resultado: CONFLICT (add/add): Merge conflict in README.md
+Detalhe da Ação: O Git mesclou os históricos, mas encontrou linhas diferentes (em README.md) que não soube como combinar, parando para você resolver o conflito.
+
+Passo 3: Resolver Conflitos de Mesclagem (Merge Conflicts)
+O Git espera que você edite manualmente o arquivo listado (neste caso, README.md).
+
+Abrir o Arquivo: Abra o arquivo afetado (README.md) em um editor de código (VS Code, Sublime, etc.).
+
+Identificar e Escolher: Localize as marcações de conflito:
+
+<<<<<<< HEAD         <-- Sua versão local
+Conteúdo local...
+=======              <-- Separador
+Conteúdo remoto...
+>>>>>>> (hash)       <-- Versão Remota (GitHub)
+
+Editar: Exclua as 3 linhas de marcação (<<<<<<< HEAD, =======, >>>>>>>) e deixe apenas o conteúdo final desejado.
+
+Salvar e Adicionar: Salve o arquivo modificado e use git add para informar ao Git que o conflito foi resolvido:
+
+Bash
+
+git add README.md
+
+
+Passo 4: Concluir o Commit de Mesclagem
+Após resolver o conflito, você precisa criar um commit que registra essa mesclagem.
+
+
+Comando Executado: git commit
+Problema Encontrado: E325: ATTENTION Found a swap file...
+Solução: O editor Vim travou ou foi fechado incorretamente em uma tentativa anterior, deixando um arquivo temporário (.swp).
+
+rm .git/.COMMIT_EDITMSG.swp
+Erro no PowerShell Path[0]:
+Usar Ctrl + C para sair do prompt de argumento do PowerShell, e então executar o rm (Remove-Item) corretamente.
+
+rm .git/.COMMIT_EDITMSG.swp
+Arquivo não encontrado (mas o erro some)
+Confirmar que o arquivo .swp foi removido ou ignorado pelo Git, e prosseguir.
+
+git commit
+O editor Vim se abre.
+Salvar e Sair (Vim): Pressione Esc, depois digite :wq, e Enter. Isso finalmente cria o Merge Commit.
+
+
+Passo 5: Push Final Bem-SucedidoCom o Merge Commit criado, seu histórico local está completo, e o Git aceitará as alterações.Comando ExecutadoResultadoStatus Finalgit push origin mainmain -> main (Sucesso!)O repositório local e o GitHub estão sincronizados.
+
+🎯 Resumo da Solução em 4 Comandos (Padrão)
+Na próxima vez que você tiver o erro non-fast-forward, se for uma sincronização inicial, você precisará apenas dos seguintes comandos, na ordem:
+
+Permitir Mesclagem (Sincronização Inicial):
+
+Bash
+
+git pull origin main --allow-unrelated-histories
+
+Resolver Conflitos: Edite o arquivo(s) afetado(s) e adicione-o(s) ao staging:
+
+Bash
+
+git add nome_do_arquivo
+
+Concluir o Merge Commit:
+
+Bash
+
+git commit
+
+(Lembre-se de salvar e sair do editor, ex: :wq no Vim).
+
+Enviar para o Remoto:
+
+Bash
+
+git push origin main
+
+
+RESUMO DA TRILHA INICIO PADRÃO
+
+
