@@ -10,3 +10,6 @@ You can look around to get an idea how to structure your project and, when done,
 # projeto github
 #Desafio-formacao-aws
 # Desafio-formacao-aws
+
+# Inclui um arquivo de notas com a trilha de envio do git 
+# Inclui o header no index2
